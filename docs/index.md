@@ -315,7 +315,7 @@ Collection.TOP_GROSSING
 
 ```bash
 # Clone repository
-git clone https://github.com/mixL1nk/playfast.git
+git clone https://github.com/taeyun16/playfast.git
 cd playfast
 
 # Install dependencies

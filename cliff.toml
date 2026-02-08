@@ -46,7 +46,7 @@ split_commits = false
 # regex for preprocessing the commit messages
 commit_preprocessors = [
     # Replace issue numbers
-    { pattern = '\((\w+\s)?#([0-9]+)\)', replace = "([#${2}](https://github.com/mixL1nk/playfast/issues/${2}))" },
+    { pattern = '\((\w+\s)?#([0-9]+)\)', replace = "([#${2}](https://github.com/taeyun16/playfast/issues/${2}))" },
     # Check spelling of the commit with https://github.com/crate-ci/typos
     # If the spelling is incorrect, it will be automatically fixed.
     # { pattern = '.*', replace_command = 'typos --write-changes -' },
@@ -86,5 +86,5 @@ sort_commits = "oldest"
 # limit_commits = 42
 
 [remote.github]
-owner = "mixL1nk"
+owner = "taeyun16"
 repo = "playfast"

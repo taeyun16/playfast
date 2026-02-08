@@ -49,7 +49,7 @@ uv --version
 ### 3. Clone Repository
 
 ```bash
-git clone https://github.com/mixL1nk/playfast.git
+git clone https://github.com/taeyun16/playfast.git
 cd playfast
 ```
 

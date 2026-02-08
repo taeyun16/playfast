@@ -36,9 +36,9 @@ dependencies = [
 ]
 
 [project.urls]
-source = "https://github.com/mixL1nk/playfast"
+source = "https://github.com/taeyun16/playfast"
 documentation = "https://mixl1nk.github.io/playfast/"
-changelog = "https://github.com/mixL1nk/playfast/blob/master/CHANGELOG.md"
+changelog = "https://github.com/taeyun16/playfast/blob/master/CHANGELOG.md"
 
 
 [build-system]

@@ -1,11 +1,11 @@
 blank_issues_enabled: false
 contact_links:
   - name: Question or Discussion
-    url: https://github.com/mixlink/playfast/discussions
+    url: https://github.com/taeyun16/playfast/discussions
     about: Ask questions or discuss ideas with the community
   - name: Documentation
-    url: https://github.com/mixlink/playfast/blob/main/README.md
+    url: https://github.com/taeyun16/playfast/blob/main/README.md
     about: Read the project documentation
   - name: Security Vulnerability
-    url: https://github.com/mixlink/playfast/security/advisories/new
+    url: https://github.com/taeyun16/playfast/security/advisories/new
     about: Report a security vulnerability (private disclosure)

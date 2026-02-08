@@ -314,7 +314,9 @@ def find_network_flows_from_apk(apk_path: str, max_depth: int = 10) -> list[Flow
 WebViewFlow = Flow
 WebViewFlowAnalyzer = DataFlowAnalyzer
 
-def analyze_webview_flows_from_apk(apk_path: str, max_depth: int = 10) -> list[Flow]: ...
+def analyze_webview_flows_from_apk(
+    apk_path: str, max_depth: int = 10
+) -> list[Flow]: ...
 def create_webview_analyzer_from_apk(apk_path: str) -> DataFlowAnalyzer: ...
 
 # ============================================================================

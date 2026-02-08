@@ -189,7 +189,7 @@ def main() -> None:
         print("  2. Publish to PyPI")
         print("  3. Create GitHub Release with artifacts")
         print("\nMonitor progress at:")
-        print("  https://github.com/mixL1nk/playfast/actions")
+        print("  https://github.com/taeyun16/playfast/actions")
     else:
         print("\n" + "=" * 50)
         print("Release created locally (not pushed)")

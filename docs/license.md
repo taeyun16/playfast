@@ -62,4 +62,4 @@ See [Contributing Guide](development/contributing.md) for details.
 
 ## Questions?
 
-For licensing questions, please [open an issue](https://github.com/mixL1nk/playfast/issues) or contact the maintainers.
+For licensing questions, please [open an issue](https://github.com/taeyun16/playfast/issues) or contact the maintainers.

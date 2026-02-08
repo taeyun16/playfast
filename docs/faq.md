@@ -301,7 +301,7 @@ See [Contributing Guide](development/contributing.md).
 
 ### How do I report bugs?
 
-[Open an issue on GitHub](https://github.com/mixL1nk/playfast/issues) with:
+[Open an issue on GitHub](https://github.com/taeyun16/playfast/issues) with:
 
 1. Python version
 1. Playfast version
@@ -334,6 +334,6 @@ uv run pytest --cov=playfast
 
 ## Still Have Questions?
 
-- [GitHub Discussions](https://github.com/mixL1nk/playfast/discussions)
-- [GitHub Issues](https://github.com/mixL1nk/playfast/issues)
+- [GitHub Discussions](https://github.com/taeyun16/playfast/discussions)
+- [GitHub Issues](https://github.com/taeyun16/playfast/issues)
 - [API Reference](api/client.md)
