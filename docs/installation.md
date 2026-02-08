@@ -42,7 +42,7 @@ For development or to get the latest unreleased changes:
 
 ```bash
 # Clone the repository
-git clone https://github.com/mixL1nk/playfast.git
+git clone https://github.com/taeyun16/playfast.git
 cd playfast
 
 # Set Python version (optional, for free-threading)

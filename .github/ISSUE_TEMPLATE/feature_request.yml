@@ -3,7 +3,7 @@ description: Suggest a new feature or enhancement
 title: "[Feature]: "
 labels: ["enhancement", "triage"]
 assignees:
-  - mixlink
+  - taeyun16
 
 body:
   - type: markdown

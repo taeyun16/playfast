@@ -11,12 +11,6 @@ on:
       - '.github/workflows/docs.yml'
   pull_request:
     branches: [main]
-    paths:
-      - 'docs/**'
-      - 'mkdocs.yaml'
-      - 'README.md'
-      - 'python/playfast/**/*.py'
-      - '.github/workflows/docs.yml'
   workflow_dispatch:
 
 # Sets permissions for GitHub Pages deployment
@@ -31,8 +25,28 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  changes:
+    name: Detect docs-relevant changes
+    runs-on: ubuntu-latest
+    outputs:
+      docs: ${{ steps.filter.outputs.docs }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            docs:
+              - 'docs/**'
+              - 'mkdocs.yaml'
+              - 'README.md'
+              - 'python/playfast/**/*.py'
+              - '.github/workflows/docs.yml'
+
   build:
     name: Build documentation
+    needs: changes
+    if: needs.changes.outputs.docs == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -74,3 +88,23 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  required:
+    name: Docs Required
+    needs: [changes, build]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enforce docs result policy
+        run: |
+          if [ "${{ needs.changes.outputs.docs }}" != "true" ]; then
+            echo "No docs-relevant changes. Marking required gate as passed."
+            exit 0
+          fi
+
+          if [ "${{ needs.build.result }}" != "success" ]; then
+            echo "Docs build did not pass: ${{ needs.build.result }}"
+            exit 1
+          fi
+
+          echo "Docs build passed."

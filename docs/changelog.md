@@ -180,7 +180,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🔧 Miscellaneous Tasks
 
 - Auto-sync CHANGELOG to docs via pre-commit hook (60e87a2)
-- Update GitHub username from placeholder to mixL1nk (a769e82)
+- Update GitHub username from placeholder to taeyun16 (a769e82)
 - Add GitHub Actions workflows for CI/CD and PyPI release (e7c054d)
 - Configure semantic-release and git-cliff for automated releases (ec27b2d)
 - Add Python script for CHANGELOG generation (5aa6a6e)

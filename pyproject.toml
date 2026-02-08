@@ -36,9 +36,9 @@ dependencies = [
 ]
 
 [project.urls]
-source = "https://github.com/mixL1nk/playfast"
+source = "https://github.com/taeyun16/playfast"
 documentation = "https://mixl1nk.github.io/playfast/"
-changelog = "https://github.com/mixL1nk/playfast/blob/master/CHANGELOG.md"
+changelog = "https://github.com/taeyun16/playfast/blob/master/CHANGELOG.md"
 
 
 [build-system]
@@ -292,6 +292,7 @@ version_toml = [
     "Cargo.toml:package.version"
 ]
 version_variables = []
+build_command = "python -m scripts.sync_changelog"
 # Keep 0.x.x versions, don't auto-jump to 1.0.0
 major_on_zero = false
 # Allow version to remain at 0.x.x
@@ -368,25 +369,12 @@ cmd = "semantic-release version --no-push --no-tag --no-commit"
 env = { PYTHONUTF8 = "1" }
 
 [tool.poe.tasks.release]
-help = "Create a new release (local only, no push)"
+help = "Create a local release commit and tag (no push)"
 sequence = [
-  { ref = "check" },  # Run full checks before release
+  { ref = "check" },
   { cmd = "semantic-release version --no-push", env = { PYTHONUTF8 = "1", SKIP = "uv-lock" } },
-  { script = "scripts.generate_changelog:main" },
-  { script = "scripts.finalize_release:main" },
 ]
 
-[tool.poe.tasks.release_with_push]
-help = "Create a new release and push to remote"
-sequence = [
-  { cmd = "semantic-release version", env = { PYTHONUTF8 = "1", SKIP = "uv-lock" } },
-  { script = "scripts.generate_changelog:main" },
-]
-
-[tool.poe.tasks.release_publish]
-cmd = "semantic-release publish"
-env = { PYTHONUTF8 = "1" }
-
-[tool.poe.tasks.safe_release]
-help = "Safe release with conflict prevention (recommended)"
-script = "scripts.safe_release:main"
+[tool.poe.tasks.release_push]
+help = "Push main branch and tags after local release"
+cmd = "git push origin main --follow-tags"

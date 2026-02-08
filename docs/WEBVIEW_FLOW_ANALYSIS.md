@@ -21,11 +21,11 @@ This system analyzes Android APK files to identify how WebViews are accessed and
 ```python
 from playfast import core
 
-# One-line analysis
-flows = core.analyze_webview_flows_from_apk("app.apk", max_depth=10)
+# One-line analysis (recommended API)
+flows = core.find_webview_flows_from_apk("app.apk", max_depth=10)
 
 for flow in flows:
-    print(f"{flow.entry_point} → {flow.webview_method}")
+    print(f"{flow.entry_point} → {flow.sink_method}")
     if flow.is_deeplink_handler:
         print("  ⚠️  DEEPLINK HANDLER")
 ```
@@ -34,19 +34,21 @@ for flow in flows:
 
 ```python
 # Create analyzer
-analyzer = core.create_webview_analyzer_from_apk("app.apk")
+analyzer = core.create_data_flow_analyzer("app.apk")
 
 # Get statistics
 stats = analyzer.get_stats()
 print(f"Entry points: {stats['entry_points']}")
 print(f"Deeplink handlers: {stats['deeplink_handlers']}")
-print(f"WebView methods: {stats['webview_methods']}")
 
 # Analyze all flows
-all_flows = analyzer.analyze_flows(max_depth=10)
+all_flows = analyzer.find_webview_flows(max_depth=10)
 
 # Find deeplink flows specifically
-deeplink_flows = analyzer.find_deeplink_flows(max_depth=10)
+deeplink_flows = analyzer.find_deeplink_flows(
+    ["WebView.loadUrl", "WebView.loadData", "WebView.loadDataWithBaseURL"],
+    max_depth=10,
+)
 
 # Analyze data flows
 data_flows = analyzer.analyze_data_flows(all_flows)
@@ -118,14 +120,14 @@ for path in paths:
 Integrates entry points and call graph to find complete flows.
 
 ```python
-analyzer = core.create_webview_analyzer_from_apk("app.apk")
+analyzer = core.create_data_flow_analyzer("app.apk")
 
 # Analyze all WebView flows
-flows = analyzer.analyze_flows(max_depth=10)
+flows = analyzer.find_webview_flows(max_depth=10)
 
 for flow in flows:
     print(f"Entry: {flow.entry_point}")
-    print(f"WebView: {flow.webview_method}")
+    print(f"WebView: {flow.sink_method}")
     print(f"Paths: {flow.path_count}")
     print(f"Min depth: {flow.min_path_length}")
 
@@ -141,37 +143,39 @@ for flow in flows:
 
 **Key Classes:**
 
-- `WebViewFlowAnalyzer` - Main analyzer
-- `WebViewFlow` - A flow from entry point to WebView
-- `DataFlow` - A data flow from Intent to WebView
+- `DataFlowAnalyzer` - Main analyzer
+- `Flow` - A flow from entry point to sink method (e.g., WebView)
+- `DataFlow` - A data flow from Intent to sink methods
 
 ## API Reference
 
-### WebViewFlowAnalyzer
+### DataFlowAnalyzer
 
 ```python
-class WebViewFlowAnalyzer:
-    def analyze_flows(self, max_depth: int = 10) -> list[WebViewFlow]:
-        """Analyze all WebView flows"""
+class DataFlowAnalyzer:
+    def find_webview_flows(self, max_depth: int = 10) -> list[Flow]:
+        """Analyze WebView flows"""
 
-    def find_deeplink_flows(self, max_depth: int = 10) -> list[WebViewFlow]:
-        """Find only deeplink handlers that lead to WebView"""
+    def find_deeplink_flows(
+        self, sink_patterns: list[str], max_depth: int = 10
+    ) -> list[Flow]:
+        """Find only deeplink handlers that lead to sink patterns"""
 
-    def analyze_data_flows(self, flows: list[WebViewFlow]) -> list[DataFlow]:
-        """Analyze data flows for given WebView flows"""
+    def analyze_data_flows(self, flows: list[Flow]) -> list[DataFlow]:
+        """Analyze data flows for given flows"""
 
     def get_stats(self) -> dict[str, int]:
         """Get analysis statistics"""
 ```
 
-### WebViewFlow
+### Flow
 
 ```python
-class WebViewFlow:
+class Flow:
     entry_point: str  # Entry point class name
     component_type: str  # Activity, Service, etc.
-    webview_method: str  # WebView API being called
-    paths: list[CallPath]  # All paths from entry to WebView
+    sink_method: str  # Sink API being called (e.g., WebView.loadUrl)
+    paths: list[CallPath]  # All paths from entry to sink
     is_deeplink_handler: bool  # Whether this is a deeplink handler
     min_path_length: int  # Shortest path length
     path_count: int  # Number of different paths
@@ -207,10 +211,13 @@ Data flow confidence is calculated based on path length:
 ### Security Analysis: Finding Deeplink Vulnerabilities
 
 ```python
-analyzer = core.create_webview_analyzer_from_apk("target.apk")
+analyzer = core.create_data_flow_analyzer("target.apk")
 
 # Find deeplink → WebView flows
-deeplink_flows = analyzer.find_deeplink_flows(max_depth=10)
+deeplink_flows = analyzer.find_deeplink_flows(
+    ["WebView.loadUrl", "WebView.loadData", "WebView.loadDataWithBaseURL"],
+    max_depth=10,
+)
 
 if deeplink_flows:
     # Analyze data flows
@@ -234,8 +241,8 @@ if deeplink_flows:
 
 ```python
 # Identify all WebView usage patterns
-analyzer = core.create_webview_analyzer_from_apk("app.apk")
-flows = analyzer.analyze_flows(max_depth=10)
+analyzer = core.create_data_flow_analyzer("app.apk")
+flows = analyzer.find_webview_flows(max_depth=10)
 
 # Group by entry point
 from collections import defaultdict
@@ -248,7 +255,7 @@ for flow in flows:
 # Report
 for entry, entry_flows in by_entry.items():
     print(f"Component: {entry}")
-    webview_apis = set(f.webview_method for f in entry_flows)
+    webview_apis = set(f.sink_method for f in entry_flows)
     print(f"  WebView APIs: {webview_apis}")
     print(f"  Total paths: {sum(f.path_count for f in entry_flows)}")
 ```
@@ -331,10 +338,10 @@ The `max_depth` parameter controls how deep to search:
 
 ```python
 # Quick scan
-flows = analyzer.analyze_flows(max_depth=5)
+flows = analyzer.find_webview_flows(max_depth=5)
 
 # Deep analysis
-flows = analyzer.analyze_flows(max_depth=15)
+flows = analyzer.find_webview_flows(max_depth=15)
 ```
 
 ### Parallel Processing
@@ -423,7 +430,7 @@ See [PARALLEL_OPTIMIZATION_SUCCESS.md](PARALLEL_OPTIMIZATION_SUCCESS.md) for opt
 
 If analysis returns no flows:
 
-1. **Check if app uses WebView**: `analyzer.get_stats()`
+1. **Check if app uses WebView**: `ApkAnalyzer("app.apk").find_webview_usage()`
 1. **Increase max_depth**: Try `max_depth=15` or higher
 1. **Check class filtering**: Remove filters to analyze all classes
 1. **Verify APK**: Ensure DEX files are present and readable
@@ -449,7 +456,7 @@ If results seem wrong:
 To extend the analysis:
 
 1. **Add new entry types**: Modify `entry_point_analyzer.rs`
-1. **Improve data flow**: Enhance heuristics in `webview_flow_analyzer.rs`
+1. **Improve data flow**: Enhance heuristics in `data_flow_analyzer.rs`
 1. **Add patterns**: Update WebView method patterns in `find_webview_methods()`
 
 ## References

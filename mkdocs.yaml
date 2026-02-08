@@ -4,7 +4,7 @@ site_author: Taeyun Jang
 site_url: https://playfast.readthedocs.io
 
 repo_name: playfast
-repo_url: https://github.com/mixL1nk/playfast
+repo_url: https://github.com/taeyun16/playfast
 
 theme:
   name: material
@@ -146,7 +146,7 @@ markdown_extensions:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/mixL1nk/playfast
+      link: https://github.com/taeyun16/playfast
     - icon: fontawesome/brands/python
       link: https://pypi.org/project/playfast/
   version:

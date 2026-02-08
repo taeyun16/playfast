@@ -14,19 +14,33 @@ on:
       - '.github/workflows/ci.yml'
   pull_request:
     branches: [main, master]
-    paths:
-      - 'python/**'
-      - 'src/**'
-      - 'tests/**'
-      - 'Cargo.toml'
-      - 'Cargo.lock'
-      - 'pyproject.toml'
-      - 'uv.lock'
-      - '.github/workflows/ci.yml'
 
 jobs:
+  changes:
+    name: Detect CI-relevant changes
+    runs-on: ubuntu-latest
+    outputs:
+      ci: ${{ steps.filter.outputs.ci }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            ci:
+              - 'python/**'
+              - 'src/**'
+              - 'tests/**'
+              - 'Cargo.toml'
+              - 'Cargo.lock'
+              - 'pyproject.toml'
+              - 'uv.lock'
+              - '.github/workflows/ci.yml'
+
   test:
     name: Test on ${{ matrix.os }} - Python ${{ matrix.python-version }}
+    needs: changes
+    if: needs.changes.outputs.ci == 'true'
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -153,6 +167,8 @@ jobs:
 
   lint:
     name: Lint and Format Check
+    needs: changes
+    if: needs.changes.outputs.ci == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -179,3 +195,28 @@ jobs:
 
       - name: Type check
         run: uv run pyright
+
+  required:
+    name: CI Required
+    needs: [changes, test, lint]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enforce CI result policy
+        run: |
+          if [ "${{ needs.changes.outputs.ci }}" != "true" ]; then
+            echo "No CI-relevant file changes. Marking required gate as passed."
+            exit 0
+          fi
+
+          if [ "${{ needs.test.result }}" != "success" ]; then
+            echo "CI test matrix did not pass: ${{ needs.test.result }}"
+            exit 1
+          fi
+
+          if [ "${{ needs.lint.result }}" != "success" ]; then
+            echo "Lint job did not pass: ${{ needs.lint.result }}"
+            exit 1
+          fi
+
+          echo "All CI jobs passed."

@@ -238,7 +238,7 @@ Cost per week: ~150 GitHub Actions minutes
 
    ```bash
    # Check GitHub Actions usage
-   gh api repos/mixL1nk/playfast/actions/runs --jq '.workflow_runs[0:10] | .[] | {name, conclusion, status}'
+   gh api repos/taeyun16/playfast/actions/runs --jq '.workflow_runs[0:10] | .[] | {name, conclusion, status}'
    ```
 
 1. **Tune matrix strategy**:

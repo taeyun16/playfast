@@ -30,7 +30,7 @@ If you want to build from source or contribute to development:
 
 ```bash
 # Clone the repository
-git clone https://github.com/mixL1nk/playfast.git
+git clone https://github.com/taeyun16/playfast.git
 cd playfast
 
 # Set Python version
@@ -190,5 +190,5 @@ app2 = await client.get_app("app2")
 ## Getting Help
 
 - [FAQ](faq.md) - Frequently asked questions
-- [GitHub Issues](https://github.com/mixL1nk/playfast/issues) - Report bugs
+- [GitHub Issues](https://github.com/taeyun16/playfast/issues) - Report bugs
 - [API Reference](api/client.md) - Detailed documentation
