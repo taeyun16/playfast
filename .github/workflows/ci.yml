@@ -52,11 +52,12 @@ jobs:
             run-tests: true
             build-profile: release
             with-coverage: true
-          # Quick compatibility checks
+          # Quick compatibility checks (dev profile — runtime correctness only,
+          # release-level perf already verified by 3.11 job above)
           - os: ubuntu-latest
             python-version: '3.12'
             run-tests: true
-            build-profile: release
+            build-profile: dev
             with-coverage: false
           # macOS build verification
           - os: macos-latest
