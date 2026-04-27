@@ -32,6 +32,12 @@ rayon = "1.10"
 zip = "6.0.0"
 byteorder = "1.5"  # For reading binary data in little-endian format
 
-# Google Play API for APK download
-# Pin git revision to avoid CI breakage from upstream API drift.
-gpapi = { git = "https://github.com/EFForg/rs-google-play.git", rev = "a1b22be9089ccbfd568992a7d82e9539c6e1c747", package = "gpapi" }
+# Google Play API for APK download.
+# Use a fork that switches reqwest to rustls-tls only, keeping the wheel
+# free of native-tls / openssl-sys.
+gpapi = { git = "https://github.com/taeyun16/rs-google-play.git", rev = "fd3d87c", package = "gpapi" }
+
+# tokio-dl-stream-to-disk pulls in reqwest with default-tls, which drags
+# native-tls into the build. Patch to a fork that uses rustls-tls only.
+[patch.crates-io]
+tokio-dl-stream-to-disk = { git = "https://github.com/taeyun16/tokio-dl-stream-to-disk.git", rev = "052e91b" }
