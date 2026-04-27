@@ -252,19 +252,26 @@ fn parse_batchexecute_reviews_response(response_text: &str) -> PyResult<(Vec<Rus
 /// Raises:
 ///     Exception: If request or parsing fails
 #[pyfunction]
-#[pyo3(signature = (app_id, lang, country, _timeout=30))]
+#[pyo3(signature = (app_id, lang, country, timeout=30))]
 fn fetch_and_parse_app(
     app_id: &str,
     lang: &str,
     country: &str,
-    _timeout: u64,  // Ignored, using global client timeout
+    timeout: u64,
 ) -> PyResult<RustAppInfo> {
-    let client = get_client();
     let runtime = get_runtime();
 
-    runtime.block_on(async {
-        client.fetch_and_parse_app(app_id, lang, country).await
-    }).map_err(Into::into)
+    if timeout == 30 {
+        let client = get_client();
+        runtime.block_on(async {
+            client.fetch_and_parse_app(app_id, lang, country).await
+        }).map_err(Into::into)
+    } else {
+        let client = PlayStoreClient::new(timeout)?;
+        runtime.block_on(async {
+            client.fetch_and_parse_app(app_id, lang, country).await
+        }).map_err(Into::into)
+    }
 }
 
 /// Fetch and parse reviews (combined HTTP + parsing, GIL-free)
@@ -283,21 +290,28 @@ fn fetch_and_parse_app(
 /// Raises:
 ///     Exception: If request or parsing fails
 #[pyfunction]
-#[pyo3(signature = (app_id, lang, country, sort=1, continuation_token=None, _timeout=30))]
+#[pyo3(signature = (app_id, lang, country, sort=1, continuation_token=None, timeout=30))]
 fn fetch_and_parse_reviews(
     app_id: &str,
     lang: &str,
     country: &str,
     sort: u8,
     continuation_token: Option<&str>,
-    _timeout: u64,  // Ignored, using global client timeout
+    timeout: u64,
 ) -> PyResult<(Vec<RustReview>, Option<String>)> {
-    let client = get_client();
     let runtime = get_runtime();
 
-    runtime.block_on(async {
-        client.fetch_and_parse_reviews(app_id, lang, country, sort, continuation_token).await
-    }).map_err(Into::into)
+    if timeout == 30 {
+        let client = get_client();
+        runtime.block_on(async {
+            client.fetch_and_parse_reviews(app_id, lang, country, sort, continuation_token).await
+        }).map_err(Into::into)
+    } else {
+        let client = PlayStoreClient::new(timeout)?;
+        runtime.block_on(async {
+            client.fetch_and_parse_reviews(app_id, lang, country, sort, continuation_token).await
+        }).map_err(Into::into)
+    }
 }
 
 /// Fetch and parse search results (combined HTTP + parsing, GIL-free)
@@ -314,19 +328,26 @@ fn fetch_and_parse_reviews(
 /// Raises:
 ///     Exception: If request or parsing fails
 #[pyfunction]
-#[pyo3(signature = (query, lang, country, _timeout=30))]
+#[pyo3(signature = (query, lang, country, timeout=30))]
 fn fetch_and_parse_search(
     query: &str,
     lang: &str,
     country: &str,
-    _timeout: u64,  // Ignored, using global client timeout
+    timeout: u64,
 ) -> PyResult<Vec<RustSearchResult>> {
-    let client = get_client();
     let runtime = get_runtime();
 
-    runtime.block_on(async {
-        client.fetch_and_parse_search(query, lang, country).await
-    }).map_err(Into::into)
+    if timeout == 30 {
+        let client = get_client();
+        runtime.block_on(async {
+            client.fetch_and_parse_search(query, lang, country).await
+        }).map_err(Into::into)
+    } else {
+        let client = PlayStoreClient::new(timeout)?;
+        runtime.block_on(async {
+            client.fetch_and_parse_search(query, lang, country).await
+        }).map_err(Into::into)
+    }
 }
 
 /// Fetch and parse list results (combined HTTP + parsing, GIL-free)
@@ -345,21 +366,28 @@ fn fetch_and_parse_search(
 /// Raises:
 ///     Exception: If request or parsing fails
 #[pyfunction]
-#[pyo3(signature = (category, collection, lang, country, num=100, _timeout=30))]
+#[pyo3(signature = (category, collection, lang, country, num=100, timeout=30))]
 fn fetch_and_parse_list(
     category: Option<&str>,
     collection: &str,
     lang: &str,
     country: &str,
     num: u32,
-    _timeout: u64,  // Ignored, using global client timeout
+    timeout: u64,
 ) -> PyResult<Vec<RustSearchResult>> {
-    let client = get_client();
     let runtime = get_runtime();
 
-    runtime.block_on(async {
-        client.fetch_and_parse_list(category, collection, lang, country, num).await
-    }).map_err(Into::into)
+    if timeout == 30 {
+        let client = get_client();
+        runtime.block_on(async {
+            client.fetch_and_parse_list(category, collection, lang, country, num).await
+        }).map_err(Into::into)
+    } else {
+        let client = PlayStoreClient::new(timeout)?;
+        runtime.block_on(async {
+            client.fetch_and_parse_list(category, collection, lang, country, num).await
+        }).map_err(Into::into)
+    }
 }
 
 /// Batch fetch and parse multiple app pages in parallel (TRUE parallelism in Rust!)

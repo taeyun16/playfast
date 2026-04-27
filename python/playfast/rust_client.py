@@ -8,6 +8,7 @@ high-throughput scenarios.
 from __future__ import annotations
 
 import asyncio
+from concurrent.futures import ThreadPoolExecutor
 from typing import Self
 
 from playfast.core import (
@@ -385,29 +386,33 @@ class RustClient:
         """
         countries_list: list[str] = countries if countries is not None else ["us"]
 
-        # Create tasks
-        tasks: list[tuple[str, str, asyncio.Task[AppInfo]]] = []
-        for country_str in countries_list:
-            for app_id_str in app_ids:
-                task = asyncio.create_task(
-                    self.get_app_async(app_id_str, lang, country_str)
-                )
-                tasks.append((country_str, app_id_str, task))
+        loop = asyncio.get_event_loop()
+        worker_count = max(1, max_workers)
 
-        # Execute with controlled parallelism
-        results: list[AppInfo | BaseException] = await asyncio.gather(
-            *[task for _, _, task in tasks], return_exceptions=True
-        )
+        with ThreadPoolExecutor(max_workers=worker_count) as executor:
+            # Create tasks
+            tasks: list[tuple[str, str, asyncio.Future[AppInfo]]] = []
+            for country_str in countries_list:
+                for app_id_str in app_ids:
+                    task = loop.run_in_executor(
+                        executor, self.get_app, app_id_str, lang, country_str
+                    )
+                    tasks.append((country_str, app_id_str, task))
 
-        # Group by country
-        by_country: dict[str, list[AppInfo]] = {c: [] for c in countries_list}
+            # Execute with controlled parallelism
+            results: list[AppInfo | BaseException] = await asyncio.gather(
+                *[task for _, _, task in tasks], return_exceptions=True
+            )
 
-        for (country, _app_id, _), result in zip(tasks, results, strict=False):
-            if isinstance(result, AppInfo):
-                by_country[country].append(result)
-            # Silently skip errors (graceful degradation)
+            # Group by country
+            by_country: dict[str, list[AppInfo]] = {c: [] for c in countries_list}
 
-        return by_country
+            for (country, _app_id, _), result in zip(tasks, results, strict=False):
+                if isinstance(result, AppInfo):
+                    by_country[country].append(result)
+                # Silently skip errors (graceful degradation)
+
+            return by_country
 
 
 # Convenience function for quick usage

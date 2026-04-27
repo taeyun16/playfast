@@ -320,6 +320,6 @@ file_flows = analyzer.find_file_flows(max_depth=10)
 
 ## 참고
 
-- 파일: [src/dex/data_flow_analyzer.rs](../src/dex/data_flow_analyzer.rs)
-- 성능 최적화: [OPTIMIZATION_SUMMARY.md](../OPTIMIZATION_SUMMARY.md)
+- 파일: `src/dex/data_flow_analyzer.rs`
+- 성능 최적화: [OPTIMIZATION_SUMMARY.md](../performance/OPTIMIZATION_SUMMARY.md)
 - 날짜: 2025-10-29

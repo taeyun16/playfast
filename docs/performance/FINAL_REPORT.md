@@ -76,7 +76,7 @@ pub fn decompile_class(
 ) -> PyResult<DecompiledClass>
 ```
 
-**파일**: [src/dex/class_decompiler.rs:178](src/dex/class_decompiler.rs#L178)
+**파일**: `src/dex/class_decompiler.rs:178`
 
 #### Step 2: Arc 기반 공유 구조
 
@@ -96,7 +96,7 @@ tasks.par_iter().filter_map(|(parser, dex_data, class_def)| {
 })
 ```
 
-**파일**: [src/dex/call_graph.rs:426-467](src/dex/call_graph.rs#L426-467)
+**파일**: `src/dex/call_graph.rs:426-467`
 
 ### 최종 결과
 
@@ -113,7 +113,7 @@ Time saved: 293.4s (67%)
 - 메모리 사용: ~60MB (안정적)
 - 결과 정확성: ✅ 100% 일치
 
-**문서**: [docs/PARALLEL_OPTIMIZATION_SUCCESS.md](docs/PARALLEL_OPTIMIZATION_SUCCESS.md)
+**문서**: [PARALLEL_PROCESSING.md](PARALLEL_PROCESSING.md)
 
 ______________________________________________________________________
 
@@ -166,7 +166,7 @@ Speedup:  4.39x (77% time saved!)
 Methods:  42% reduction
 ```
 
-**테스트 스크립트**: [examples/test_filtered_analysis.py](examples/test_filtered_analysis.py)
+**테스트 스크립트**: `examples/performance/test_filtered_analysis.py`
 **상태**: ✅ 검증 완료
 
 ### Phase 2b: True Incremental BFS 🔄 80% 완료
@@ -197,7 +197,7 @@ Incremental: 20-40s (80-85% 개선)
 Speedup:     3.5-7x
 ```
 
-**문서**: [docs/ENTRY_POINT_DRIVEN_ANALYSIS.md](docs/ENTRY_POINT_DRIVEN_ANALYSIS.md)
+**문서**: [ENTRY_POINT_FILTERING.md](ENTRY_POINT_FILTERING.md)
 
 ______________________________________________________________________
 

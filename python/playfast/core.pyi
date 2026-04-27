@@ -86,7 +86,7 @@ def parse_batchexecute_reviews_response(
 
 # Single request functions (HTTP + parsing)
 def fetch_and_parse_app(
-    app_id: str, lang: str, country: str, _timeout: int = 30
+    app_id: str, lang: str, country: str, timeout: int = 30
 ) -> RustAppInfo: ...
 def fetch_and_parse_reviews(
     app_id: str,
@@ -94,10 +94,10 @@ def fetch_and_parse_reviews(
     country: str,
     sort: int = 1,
     continuation_token: str | None = None,
-    _timeout: int = 30,
+    timeout: int = 30,
 ) -> tuple[list[RustReview], str | None]: ...
 def fetch_and_parse_search(
-    query: str, lang: str, country: str, _timeout: int = 30
+    query: str, lang: str, country: str, timeout: int = 30
 ) -> list[RustSearchResult]: ...
 def fetch_and_parse_list(
     category: str | None,
@@ -105,7 +105,7 @@ def fetch_and_parse_list(
     lang: str,
     country: str,
     num: int = 100,
-    _timeout: int = 30,
+    timeout: int = 30,
 ) -> list[RustSearchResult]: ...
 
 # Batch functions for parallel processing (recommended for multiple requests)
@@ -133,74 +133,96 @@ class RustDexClass:
     access_flags: int
     superclass: str | None
     interfaces: list[str]
-    source_file: str | None
     methods: list[RustDexMethod]
     fields: list[RustDexField]
-    method_count: int
-    field_count: int
     references: RustReferencePool
-    is_public: bool
-    is_final: bool
-    is_abstract: bool
-    is_interface: bool
-    is_enum: bool
+    def is_public(self) -> bool: ...
+    def is_final(self) -> bool: ...
+    def is_abstract(self) -> bool: ...
+    def is_interface(self) -> bool: ...
+    def is_enum(self) -> bool: ...
+    def method_count(self) -> int: ...
+    def field_count(self) -> int: ...
     def to_dict(self) -> dict[str, Any]: ...
 
 class RustDexMethod:
     declaring_class: str
     name: str
-    signature: str
     parameters: list[str]
     return_type: str
     access_flags: int
     references: RustReferencePool
-    is_public: bool
-    is_private: bool
-    is_protected: bool
-    is_static: bool
-    is_final: bool
-    is_constructor: bool
-    is_static_initializer: bool
+    def is_public(self) -> bool: ...
+    def is_private(self) -> bool: ...
+    def is_protected(self) -> bool: ...
+    def is_static(self) -> bool: ...
+    def is_final(self) -> bool: ...
+    def is_constructor(self) -> bool: ...
+    def is_static_initializer(self) -> bool: ...
+    def signature(self) -> str: ...
     def to_dict(self) -> dict[str, Any]: ...
 
 class RustDexField:
-    class_name: str
-    field_name: str
-    type_descriptor: str
+    name: str
+    field_type: str
+    declaring_class: str
     access_flags: int
 
 class RustReferencePool:
+    strings: list[str]
+    types: list[str]
+    fields: list[str]
+    methods: list[str]
     def __len__(self) -> int: ...
+    def contains(self, value: str) -> bool: ...
+    def contains_string(self, value: str) -> bool: ...
+    def contains_type(self, value: str) -> bool: ...
+    def contains_field(self, value: str) -> bool: ...
+    def contains_method(self, value: str) -> bool: ...
+    def to_dict(self) -> dict[str, Any]: ...
 
 class RustManifestInfo:
     package_name: str
     version_code: str | None
     version_name: str | None
-    min_sdk_version: int | None
-    target_sdk_version: int | None
+    min_sdk_version: str | None
+    target_sdk_version: str | None
     application_label: str | None
     permissions: list[str]
     activities: list[str]
     services: list[str]
     receivers: list[str]
     providers: list[str]
-    intent_filters: list[Any]
+    intent_filters: list[ActivityIntentFilter]
     def get_deeplinks(self) -> list[Any]: ...
     def to_dict(self) -> dict[str, Any]: ...
 
 class IntentFilterData:
-    actions: list[str]
-    categories: list[str]
-    schemes: list[str]
-    hosts: list[str]
+    scheme: str | None
+    host: str | None
+    path: str | None
+    path_prefix: str | None
+    path_pattern: str | None
 
 class ActivityIntentFilter:
     activity: str
-    filters: list[IntentFilterData]
+    actions: list[str]
+    categories: list[str]
+    data: list[IntentFilterData]
+    def is_deeplink(self) -> bool: ...
 
 class RustInstruction:
     opcode: str
-    operands: list[int]
+    dest: int | None
+    value: int | None
+    string_idx: int | None
+    method_idx: int | None
+    args: list[int]
+    raw: str
+    def is_const(self) -> bool: ...
+    def is_invoke(self) -> bool: ...
+    def get_boolean_value(self) -> bool | None: ...
+    def to_dict(self) -> dict[str, Any]: ...
 
 class MethodSignature:
     class_name: str
@@ -219,16 +241,19 @@ class ComponentType:
 
 class EntryPoint:
     class_name: str
-    component_type: str
-    lifecycle_methods: list[str]
-    is_exported: bool
-    intent_filters: list[IntentFilterData]
+    component_type: ComponentType
+    intent_filters: list[ActivityIntentFilter]
     is_deeplink_handler: bool
+    class_found: bool
+    def get_deeplink_patterns(self) -> list[str]: ...
+    def get_actions(self) -> list[str]: ...
+    def handles_action(self, action: str) -> bool: ...
 
 class PyEntryPointAnalyzer:
     def analyze(self) -> list[EntryPoint]: ...
     def get_deeplink_handlers(self) -> list[EntryPoint]: ...
-    def get_stats(self) -> dict[str, int]: ...
+    def get_found_entry_points(self) -> list[EntryPoint]: ...
+    def get_stats(self) -> str: ...
 
 def analyze_entry_points_from_apk(apk_path: str) -> PyEntryPointAnalyzer: ...
 
@@ -239,20 +264,28 @@ def analyze_entry_points_from_apk(apk_path: str) -> PyEntryPointAnalyzer: ...
 class MethodCall:
     caller: str
     callee: str
-    call_sites: int
+    call_site: str
 
 class CallPath:
     methods: list[str]
+    calls: list[MethodCall]
     length: int
+    def get_source(self) -> str | None: ...
+    def get_target(self) -> str | None: ...
+    def contains_method(self, method: str) -> bool: ...
 
 class CallGraph:
-    def find_methods_matching(self, pattern: str) -> list[str]: ...
+    def get_all_methods(self) -> list[str]: ...
+    def get_callees(self, method: str) -> list[str]: ...
+    def get_callers(self, method: str) -> list[str]: ...
+    def find_methods(self, pattern: str) -> list[str]: ...
     def find_paths(
-        self, start_methods: list[str], target_methods: list[str], max_depth: int
+        self, source: str, target: str, max_depth: int = 10
     ) -> list[CallPath]: ...
     def get_stats(self) -> dict[str, int]: ...
 
 class PyCallGraphBuilder:
+    def add_class(self, class_: DecompiledClass) -> None: ...
     def build(self) -> CallGraph: ...
 
 def build_call_graph_from_apk(
@@ -341,7 +374,7 @@ def search_methods(
     method_filter: MethodFilter,
     limit: int | None = None,
     parallel: bool = True,
-) -> list[RustDexMethod]: ...
+) -> list[tuple[RustDexClass, RustDexMethod]]: ...
 
 # ============================================================================
 # Bytecode Analysis Functions

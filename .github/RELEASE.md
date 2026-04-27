@@ -28,6 +28,11 @@
 | --------------------- | ------------- | ------------------------- |
 | `PYPI_API_TOKEN`      | `pypi-AgE...` | PyPI 업로드용 토큰        |
 | `TEST_PYPI_API_TOKEN` | `pypi-AgE...` | Test PyPI 토큰 (선택사항) |
+| `RELEASE_TOKEN`       | `github_pat...` | 릴리스 커밋/태그 푸시용 fine-grained PAT 또는 GitHub App token |
+
+`RELEASE_TOKEN`에는 repository `Contents: Read and write` 권한이 필요합니다.
+기본 `GITHUB_TOKEN`으로 푸시한 태그는 후속 `release.yml` 워크플로를 트리거하지 않으므로,
+버전 자동화 워크플로는 이 별도 토큰을 사용합니다.
 
 ### 4. PyPI Trusted Publishing 설정 (추천, 토큰 없이 배포)
 
@@ -55,16 +60,29 @@ Conventional Commits를 사용하면 버전이 자동 계산됩니다:
 git commit -m "feat: add new feature"
 git commit -m "fix: fix bug"
 
-# 2. 로컬 릴리스 생성 (버전 증가 + 태그 생성, push 없음)
-uv run poe release
+# 2. main/master에 푸시
+git push origin main
 
-# 3. 릴리스 푸시
-uv run poe release_push
-
-# 4. GitHub Actions가 자동으로:
+# 3. GitHub Actions가 자동으로:
+#    - .github/workflows/version.yml 실행
+#    - 버전 증가 + CHANGELOG 업데이트
+#    - 릴리스 커밋 + vX.Y.Z 태그 생성
+#    - 태그 푸시로 .github/workflows/release.yml 실행
 #    - 모든 플랫폼용 wheel 빌드
 #    - PyPI에 업로드
 #    - GitHub Release 생성
+```
+
+### 로컬 릴리스 (복구/수동 검증용)
+
+CI 자동화 대신 로컬에서 릴리스 커밋과 태그를 만들 수도 있습니다:
+
+```bash
+# 1. 로컬 릴리스 생성 (버전 증가 + 태그 생성, push 없음)
+uv run poe release
+
+# 2. 릴리스 푸시
+uv run poe release_push
 ```
 
 ### 수동 릴리스 (비권장)

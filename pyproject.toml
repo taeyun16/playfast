@@ -293,6 +293,10 @@ version_toml = [
 ]
 version_variables = []
 build_command = "python -m scripts.sync_changelog"
+assets = [
+    "docs/changelog.md",
+    "uv.lock",
+]
 # Keep 0.x.x versions, don't auto-jump to 1.0.0
 major_on_zero = false
 # Allow version to remain at 0.x.x
@@ -314,9 +318,9 @@ match = "(main|master)"
 prerelease = false
 
 [tool.semantic_release.commit_parser_options]
-allowed_tags = ["feat", "fix", "perf", "refactor", "docs", "chore", "style", "test", "ci"]
+allowed_tags = ["feat", "fix", "perf", "refactor", "docs", "chore", "style", "test", "ci", "build"]
 minor_tags = ["feat"]
-patch_tags = ["fix", "perf", "refactor", "chore", "ci", "docs"]  # ci/chore/docs also trigger patch
+patch_tags = ["fix", "perf", "refactor", "chore", "ci", "docs", "build"]  # ci/chore/docs/build also trigger patch
 
 [tool.poe]
 executor.type = "uv"

@@ -459,8 +459,8 @@ ______________________________________________________________________
 
 ## See Also
 
-- [OPTIMIZATION_SUMMARY.md](./OPTIMIZATION_SUMMARY.md) - Performance benchmarks
-- [MEMORY_OPTIMIZATION.md](./MEMORY_OPTIMIZATION.md) - Memory efficiency guide
+- [OPTIMIZATION_SUMMARY.md](performance/OPTIMIZATION_SUMMARY.md) - Performance benchmarks
+- [MEMORY_OPTIMIZATION.md](performance/MEMORY_OPTIMIZATION.md) - Memory efficiency guide
 - See `examples/03_batch_api.py` for working code examples
 
 ______________________________________________________________________

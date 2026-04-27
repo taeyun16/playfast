@@ -12,7 +12,7 @@ Playfast uses **path-based filtering** to ensure workflows only run when relevan
 
 ## Workflow Triggers
 
-### CI Workflow ([.github/workflows/ci.yml](../.github/workflows/ci.yml))
+### CI Workflow (`.github/workflows/ci.yml`)
 
 **Runs when**: Code or configuration changes
 
@@ -46,7 +46,7 @@ git commit -m "feat: add new API endpoint" python/playfast/client.py
 git commit -m "docs: update README" README.md
 ```
 
-### Documentation Workflow ([.github/workflows/docs.yml](../.github/workflows/docs.yml))
+### Documentation Workflow (`.github/workflows/docs.yml`)
 
 **Runs when**: Documentation or docstrings change
 
@@ -75,7 +75,7 @@ git commit -m "docs: improve API reference" docs/api.md
 git commit -m "feat: optimize parser" src/parser.rs
 ```
 
-### Release Workflow ([.github/workflows/release.yml](../.github/workflows/release.yml))
+### Release Workflow (`.github/workflows/release.yml`)
 
 **Runs when**: Version tags are pushed
 
@@ -87,6 +87,25 @@ on:
 ```
 
 **No path filtering** - releases always build all platforms.
+
+### Version Workflow (`.github/workflows/version.yml`)
+
+**Runs when**: Commits are pushed to `main` or `master`, or manually via
+`workflow_dispatch`
+
+```yaml
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+```
+
+This workflow runs semantic-release, creates the release commit and tag, and then the
+tag push triggers the Release workflow. It skips commits whose message starts with
+`chore(release):` to avoid a release commit loop.
+
+It must use `RELEASE_TOKEN` rather than the default `GITHUB_TOKEN`; otherwise the tag
+push will not trigger `release.yml`.
 
 ## Optimization Strategies
 
@@ -175,6 +194,8 @@ Commit pushed
     ├─ Changed: docs/** → Skip CI ❌, Run Docs ✅
     │
     ├─ Changed: pyproject.toml → Run CI ✅, Skip Docs ❌
+    │
+    ├─ Branch: main/master → Run Version ✅ if commit is releasable
     │
     └─ Tag: v* → Run Release ✅ (always full build)
 ```
@@ -306,9 +327,9 @@ Currently not used in Playfast (positive filters are clearer).
 ## Related
 
 - [GitHub Actions: Workflow Syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onpushpull_requestpull_request_targetpathspaths-ignore)
-- [CONTRIBUTING.md](../CONTRIBUTING.md) - Contribution guidelines
-- [ci.yml](../.github/workflows/ci.yml) - CI workflow
-- [docs.yml](../.github/workflows/docs.yml) - Documentation workflow
+- [Contributing Guide](development/contributing.md) - Contribution guidelines
+- `ci.yml` - CI workflow
+- `docs.yml` - Documentation workflow
 
 ## Summary
 
@@ -316,6 +337,7 @@ Currently not used in Playfast (positive filters are clearer).
 | ----------- | ------------ | -------- | --------------- |
 | **CI**      | Code changes | ~10 min  | ~30% of commits |
 | **Docs**    | Docs changes | ~3 min   | ~20% of commits |
+| **Version** | Main/master pushes | ~1 min | Depends on releasable commits |
 | **Release** | Version tags | ~30 min  | ~1-2 per week   |
 
 **Total savings**: ~70% reduction in workflow runs through smart path filtering! 🎉

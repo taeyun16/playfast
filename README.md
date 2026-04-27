@@ -219,18 +219,18 @@ See the [`examples/`](examples/) directory for more:
 
 - **[Getting Started](docs/getting_started.md)** - Installation and first steps
 - **[Quick Start](docs/quick_start.md)** - Practical examples
-- **[API Reference](docs/api/)** - Complete API documentation
+- **[API Reference](docs/api/client.md)** - Complete API documentation
 - **[Batch API Guide](docs/BATCH_API.md)** - Batch processing guide
 
 ### APK Download
 
-- **[APK Download Implementation](docs/development/plans/APK_DOWNLOAD_IMPLEMENTATION.md)** - Architecture and design
+- **APK Download Implementation** - Architecture and design
 - **Authentication**: Get OAuth token from [Google Embedded Setup](https://accounts.google.com/EmbeddedSetup/identifier?flowName=EmbeddedSetupAndroid)
 
 ### APK/DEX Analysis
 
 - **[WebView Flow Analysis](docs/WEBVIEW_FLOW_ANALYSIS.md)** - Complete guide to WebView security analysis
-- **[Core API Review](docs/development/CORE_API_REVIEW.md)** - Low-level API usage guide
+- **[Rust Core API](docs/api/rust_core.md)** - Low-level API usage guide
 
 ## 🏗️ Architecture
 

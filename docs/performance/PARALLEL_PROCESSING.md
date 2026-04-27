@@ -189,16 +189,16 @@ Without benchmarking, we might have shipped the 4.3x slower version thinking it 
 
 ### Files Modified
 
-1. **[src/dex/class_decompiler.rs](../src/dex/class_decompiler.rs)**
+1. **`src/dex/class_decompiler.rs`**
 
    - Changed `decompile_class` to accept `&[u8]` instead of `Vec<u8>`
 
-1. **[src/dex/call_graph.rs](../src/dex/call_graph.rs)**
+1. **`src/dex/call_graph.rs`**
 
    - Refactored `build_call_graph_from_apk_parallel()` to use Arc-shared parser and data
    - Updated sequential version to use new API
 
-1. **[examples/benchmark_parallel_separate.py](../examples/benchmark_parallel_separate.py)**
+1. **`examples/benchmark_parallel_separate.py`**
 
    - Created memory-efficient benchmark script
 

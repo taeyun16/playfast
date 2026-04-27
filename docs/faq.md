@@ -71,7 +71,7 @@ app = client.get_app("com.example.app")
 print(app["title"])
 ```
 
-For more examples, see the [RustClient quick start](index.md#option-2-rustclient-maximum-performance) and the [parallel batch guide](index.md#rustclient---parallel-batch-processing).
+For more examples, see the [RustClient quick start](index.md#option-2-rustclient-maximum-performance) and the [parallel batch guide](index.md#rustclient-parallel-batch-processing).
 
 ### How many concurrent requests can I make?
 

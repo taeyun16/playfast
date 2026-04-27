@@ -394,7 +394,7 @@ with Pool(processes=4) as pool:  # 4 APKs in parallel
     results = pool.map(analyze_apk, apk_list)
 ```
 
-See [PARALLEL_OPTIMIZATION_SUCCESS.md](PARALLEL_OPTIMIZATION_SUCCESS.md) for optimization details.
+See [PARALLEL_PROCESSING.md](performance/PARALLEL_PROCESSING.md) for optimization details.
 
 ## Limitations
 

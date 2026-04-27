@@ -39,7 +39,7 @@ for perm in analyzer.manifest.permissions:
 
 ### Extended `ApkAnalyzer` with Data Flow Analysis Methods
 
-Added 6 new high-level methods to [`python/playfast/apk.py`](../../python/playfast/apk.py:454-631):
+Added 6 new high-level methods to `python/playfast/apk.py` (lines 454-631):
 
 #### 1. Entry Point Analysis
 
@@ -142,7 +142,7 @@ entry_analysis = apk.analyze_entry_points()
 
 ### 1. New: High-level API Demo
 
-Created [`examples/webview_analysis_high_level.py`](../../examples/webview_analysis_high_level.py)
+Created `examples/webview_analysis_high_level.py`
 
 **Key Features**:
 
@@ -153,7 +153,7 @@ Created [`examples/webview_analysis_high_level.py`](../../examples/webview_analy
 
 ### 2. Updated: Quick Demo
 
-Updated [`examples/webview_flow_quick_demo.py`](../../examples/webview_flow_quick_demo.py)
+Updated `examples/webview_flow_quick_demo.py`
 
 **Changes**:
 
@@ -249,15 +249,15 @@ flows = apk.find_webview_flows(max_depth=10)
 
 ## Files Modified
 
-1. **[`python/playfast/apk.py`](../../python/playfast/apk.py)** - Added 7 new methods (lines 454-631)
-1. **[`examples/webview_flow_quick_demo.py`](../../examples/webview_flow_quick_demo.py)** - Migrated to high-level API
-1. **[`examples/webview_analysis_high_level.py`](../../examples/webview_analysis_high_level.py)** - New demo file
+1. **`python/playfast/apk.py`** - Added 7 new methods (lines 454-631)
+1. **`examples/webview_flow_quick_demo.py`** - Migrated to high-level API
+1. **`examples/webview_analysis_high_level.py`** - New demo file
 
 ## Documentation
 
 - **Design Doc**: [`docs/api/APK_ANALYZER_IMPROVEMENTS.md`](./APK_ANALYZER_IMPROVEMENTS.md)
 - **This Document**: [`docs/api/API_IMPROVEMENTS_COMPLETED.md`](./API_IMPROVEMENTS_COMPLETED.md)
-- **Cleanup Summary**: [`CLEANUP_SUMMARY.md`](../../CLEANUP_SUMMARY.md)
+- **Cleanup Summary**: `CLEANUP_SUMMARY.md`
 
 ## Related Work
 

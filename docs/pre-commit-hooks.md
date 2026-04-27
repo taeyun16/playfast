@@ -329,6 +329,6 @@ exclude = ["tests", "examples"]  # Skip non-critical
 
 ## See Also
 
-- [CONTRIBUTING.md](../CONTRIBUTING.md) - Contribution guidelines
+- [Contributing Guide](development/contributing.md) - Contribution guidelines
 - [release-workflow.md](release-workflow.md) - Release process
 - [pre-commit documentation](https://pre-commit.com/)

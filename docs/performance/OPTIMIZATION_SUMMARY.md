@@ -368,7 +368,7 @@ ______________________________________________________________________
 
 - See `examples/03_batch_api.py` for high-level API examples
 - **[MEMORY_OPTIMIZATION.md](./MEMORY_OPTIMIZATION.md)** - Memory analysis and BatchRequestBuilder
-- **[PERFORMANCE_IMPROVEMENTS.md](./PERFORMANCE_IMPROVEMENTS.md)** - Detailed technical implementation
+- **[PERFORMANCE_IMPROVEMENTS.md](../PERFORMANCE_IMPROVEMENTS.md)** - Detailed technical implementation
 - See `benchmarks/` folder for all benchmark scripts
 
 ______________________________________________________________________

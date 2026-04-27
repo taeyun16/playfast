@@ -161,7 +161,7 @@ class ApkAnalyzer:
         class_name: str | None = None,
         limit: int | None = None,
         parallel: bool = True,
-    ) -> list[core.RustDexMethod]:
+    ) -> list[tuple[core.RustDexClass, core.RustDexMethod]]:
         """Find methods matching the specified criteria.
 
         Args:
@@ -174,13 +174,13 @@ class ApkAnalyzer:
             parallel: Use parallel processing (default: True)
 
         Returns:
-            List of RustDexMethod objects
+            List of (RustDexClass, RustDexMethod) tuples
 
         Example:
             >>> # Find onCreate methods
             >>> methods = analyzer.find_methods(method_name="onCreate")
-            >>> for method in methods:
-            ...     print(f"{method.class_name}.{method.method_name}")
+            >>> for cls, method in methods:
+            ...     print(f"{cls.class_name}.{method.name}")
             >>>
             >>> # Find getter methods (no parameters)
             >>> getters = analyzer.find_methods(method_name="get")

@@ -58,8 +58,8 @@ nav:
       - Rust Core: "api/rust_core.md"
       - Batch API: "BATCH_API.md"
   - Performance:
-      - Optimization Summary: "OPTIMIZATION_SUMMARY.md"
-      - Memory Optimization: "MEMORY_OPTIMIZATION.md"
+      - Optimization Summary: "performance/OPTIMIZATION_SUMMARY.md"
+      - Memory Optimization: "performance/MEMORY_OPTIMIZATION.md"
       - Performance Improvements: "PERFORMANCE_IMPROVEMENTS.md"
   - Examples:
       - Basic Examples: "examples/basic.md"
