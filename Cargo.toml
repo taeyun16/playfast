@@ -35,8 +35,3 @@ byteorder = "1.5"  # For reading binary data in little-endian format
 # Google Play API for APK download
 # Pin git revision to avoid CI breakage from upstream API drift.
 gpapi = { git = "https://github.com/EFForg/rs-google-play.git", rev = "a1b22be9089ccbfd568992a7d82e9539c6e1c747", package = "gpapi" }
-
-# OpenSSL vendoring for manylinux builds
-# gpapi transitively depends on reqwest with default-tls (OpenSSL)
-# Vendored feature compiles OpenSSL from source, requiring perl in manylinux
-openssl-sys = { version = "0.9", features = ["vendored"] }

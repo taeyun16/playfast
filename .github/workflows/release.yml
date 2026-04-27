@@ -42,9 +42,6 @@ jobs:
           args: --release --out dist --find-interpreter
           sccache: 'true'
           manylinux: auto
-          before-script-linux: |
-            # Install perl for OpenSSL vendored build (required by gpapi -> reqwest -> openssl-sys)
-            yum install -y perl-core
 
       - name: Upload wheels
         uses: actions/upload-artifact@v4
