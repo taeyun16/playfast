@@ -1,6 +1,6 @@
 [project]
 name = "playfast"
-version = "0.5.6"
+version = "0.5.7"
 description = "Playfast - Lightning-Fast Google Play Store Scraper"
 readme = "README.md"
 authors = [
