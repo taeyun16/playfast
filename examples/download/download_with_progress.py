@@ -129,7 +129,7 @@ def main() -> None:
             print(f"  - {path}")
         print("\nPlease create credentials first:")
         print("  1. Get OAuth token from:")
-        print("     https://accounts.google.com/EmbeddedSetup/identifier?flowName=EmbeddedSetupAndroid")
+        print("     https://accounts.google.com/EmbeddedSetup")
         print("  2. Run: python examples/download/setup_credentials.py")
         sys.exit(1)
 

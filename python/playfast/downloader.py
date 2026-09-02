@@ -54,7 +54,7 @@ class ApkDownloader:
             You must provide either oauth_token or aas_token.
 
             OAuth token can be obtained from Google's embedded setup page:
-            https://accounts.google.com/EmbeddedSetup/identifier?flowName=EmbeddedSetupAndroid
+            https://accounts.google.com/EmbeddedSetup
 
             Available devices: px_9a, px_7a, px_6a, ad_g3_pro, etc.
             See gpapi documentation for full list.

@@ -37,8 +37,8 @@ dependencies = [
 
 [project.urls]
 source = "https://github.com/taeyun16/playfast"
-documentation = "https://mixl1nk.github.io/playfast/"
-changelog = "https://github.com/taeyun16/playfast/blob/master/CHANGELOG.md"
+documentation = "https://taeyun16.github.io/playfast/"
+changelog = "https://github.com/taeyun16/playfast/blob/main/CHANGELOG.md"
 
 
 [build-system]
