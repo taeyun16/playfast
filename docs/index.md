@@ -2,11 +2,11 @@
 
 **Lightning-Fast Google Play Store Scraper**
 
-Playfast is a high-performance Google Play Store scraper built with Rust + PyO3, delivering **5-10x faster performance** with true parallel batch processing.
+Playfast is a high-performance Google Play Store scraper built with Rust + PyO3, delivering **5-7x faster performance** with true parallel batch processing.
 
 ## ✨ Features
 
-- **🚀 Blazingly Fast**: Batch API is 5-10x faster than sequential processing
+- **🚀 Blazingly Fast**: Batch API is 5-7x faster than sequential processing
 - **⚡ True Parallel**: Rust core completely releases GIL for real parallelism
 - **🦀 Pure Rust Performance**: HTTP + parsing all in Rust
 - **🔒 Type Safe**: Full Pydantic validation and type hints
@@ -17,23 +17,23 @@ Playfast is a high-performance Google Play Store scraper built with Rust + PyO3,
 
 ## 📊 Performance
 
-**Batch Processing** makes bulk operations 5-10x faster through true Rust parallelism!
+**Batch Processing** makes bulk operations 5-7x faster through true Rust parallelism!
 
 ### Benchmark Results
 
 **Batch Apps (3 apps × 3 countries = 9 requests):**
 
-| Method                   | Time    | Speedup       |
-| ------------------------ | ------- | ------------- |
-| **Batch API**            | **~3s** | **6-8x** 🚀   |
-| RustClient + ThreadPool  | ~3-4s   | 6-7x          |
-| AsyncClient (concurrent) | ~3-5s   | 5-7x          |
-| Sequential               | ~20-30s | 1x (baseline) |
+| Method                   | Time      | Speedup       |
+| ------------------------ | --------- | ------------- |
+| **Batch API**            | **~3-5s** | **5-7x** 🚀   |
+| RustClient + ThreadPool  | ~3-5s     | 5-7x          |
+| AsyncClient (concurrent) | ~3-5s     | 5-7x          |
+| Sequential               | ~20-30s   | 1x (baseline) |
 
 **Key Findings:**
 
 - ⚡ **Batch API is simplest and fastest**
-- 🎯 **5-10x faster than sequential**
+- 🎯 **5-7x faster than sequential**
 - 💡 **True parallel execution** (Rust releases GIL)
 - 🔮 **Linear scaling** up to 1000s of requests
 
@@ -60,7 +60,7 @@ apps = fetch_apps(
     countries=["us", "kr", "jp"],
     lang="en",
 )
-print(f"Fetched {len(apps)} apps in ~3 seconds!")
+print(f"Fetched {len(apps)} apps in ~3-5 seconds!")
 
 # Fetch top apps by category (parallel!)
 results = fetch_category_lists(

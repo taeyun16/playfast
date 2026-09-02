@@ -76,7 +76,7 @@ Python 3.14's free-threading (PEP 703) removes the Global Interpreter Lock (GIL)
 
 - True parallel execution of Python threads
 - Better utilization of multi-core CPUs
-- **3-10x performance improvement** for Playfast's workloads
+- **5-7x performance improvement** for Playfast's workloads
 
 ## Verify Installation
 

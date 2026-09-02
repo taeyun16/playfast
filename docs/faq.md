@@ -4,7 +4,7 @@
 
 ### What is Playfast?
 
-Playfast is a high-performance Google Play Store scraper built with Rust and Python, designed to be 3-10x faster than existing solutions by leveraging Python 3.14's free-threading and Rust's performance.
+Playfast is a high-performance Google Play Store scraper built with Rust and Python, designed to be 4-9x faster than existing solutions by leveraging Python 3.11+ and Rust's performance.
 
 ### Is Playfast free?
 

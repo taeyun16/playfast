@@ -55,7 +55,7 @@ Learn how to use high-level batch functions:
 **When to use:**
 
 - Simplest API for multiple items
-- 5-10x faster than sequential
+- 5-7x faster than sequential
 - Automatic parallelization
 
 ```bash
@@ -128,7 +128,7 @@ uv run python examples/basic.py
 | --------------- | --------------------- | ---------------- | ---------- |
 | **AsyncClient** | I/O-bound, async code | Fast             | Easy       |
 | **RustClient**  | CPU-bound, batch      | Fastest (30-40%) | Easy       |
-| **Batch API**   | Multiple items        | 5-10x sequential | Easiest    |
+| **Batch API**   | Multiple items        | 5-7x sequential  | Easiest    |
 
 ## Common Patterns
 

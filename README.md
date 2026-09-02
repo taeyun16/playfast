@@ -10,13 +10,13 @@
 [![PyPI](https://img.shields.io/pypi/v/playfast?logo=python)](https://pypi.org/project/playfast/)
 [![Documentation](https://img.shields.io/badge/docs-mkdocs-blue)](https://taeyun16.github.io/playfast/)
 
-Playfast is a high-performance Google Play Store scraper built with **Rust + PyO3**, delivering **5-10x faster performance** with true parallel batch processing.
+Playfast is a high-performance Google Play Store scraper built with **Rust + PyO3**, delivering **5-7x faster performance** with true parallel batch processing.
 
 ## ✨ Features
 
 ### Play Store Scraping
 
-- 🚀 **Blazingly Fast**: Batch API is 5-10x faster than sequential
+- 🚀 **Blazingly Fast**: Batch API is 5-7x faster than sequential
 - ⚡ **True Parallel**: Rust core completely releases GIL
 - 🦀 **Pure Rust**: HTTP + parsing all in Rust for maximum performance
 - 🔒 **Type Safe**: Full Pydantic validation and type hints
@@ -42,14 +42,14 @@ Playfast is a high-performance Google Play Store scraper built with **Rust + PyO
 
 ## 📊 Performance
 
-**Batch Processing** makes bulk operations **5-10x faster** through true Rust parallelism!
+**Batch Processing** makes bulk operations **5-7x faster** through true Rust parallelism!
 
-| Method                   | Time    | Speedup     |
-| ------------------------ | ------- | ----------- |
-| **Batch API**            | **~3s** | **6-8x** 🚀 |
-| RustClient + ThreadPool  | ~3-4s   | 6-7x        |
-| AsyncClient (concurrent) | ~3-5s   | 5-7x        |
-| Sequential               | ~20-30s | 1x          |
+| Method                   | Time      | Speedup     |
+| ------------------------ | --------- | ----------- |
+| **Batch API**            | **~3-5s** | **5-7x** 🚀 |
+| RustClient + ThreadPool  | ~3-5s     | 5-7x        |
+| AsyncClient (concurrent) | ~3-5s     | 5-7x        |
+| Sequential               | ~20-30s   | 1x          |
 
 *Benchmark: Fetching 3 apps across 3 countries (9 requests total)*
 
@@ -85,7 +85,7 @@ apps = fetch_apps(
     app_ids=["com.spotify.music", "com.netflix.mediaclient"],
     countries=["us", "kr", "jp"],
 )
-print(f"Fetched {len(apps)} apps in ~3 seconds!")
+print(f"Fetched {len(apps)} apps in ~3-5 seconds!")
 ```
 
 ### Option 2: RustClient (Maximum Performance)
@@ -225,7 +225,7 @@ See the [`examples/`](examples/) directory for more:
 ### APK Download
 
 - **APK Download Implementation** - Architecture and design
-- **Authentication**: Get OAuth token from [Google Embedded Setup](https://accounts.google.com/EmbeddedSetup/identifier?flowName=EmbeddedSetupAndroid)
+- **Authentication**: Get OAuth token from [Google Embedded Setup](https://accounts.google.com/EmbeddedSetup)
 
 ### APK/DEX Analysis
 
